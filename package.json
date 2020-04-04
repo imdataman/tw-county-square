@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "core-js": "^3.6.4",
+    "d3-array": "^2.4.0",
+    "d3-scale": "^3.2.1",
     "vue": "^2.6.11"
   },
   "devDependencies": {
