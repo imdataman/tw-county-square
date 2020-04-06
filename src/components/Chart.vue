@@ -7,11 +7,19 @@
       :class="{ county: countyMap.get(g) }"
     >
       <div class="infoWrapper">
-        <span>{{ countyMap.get(g) }}</span>
-        <span>{{ `${totalCases[g]}例` }}</span>
+        <span class="countyName">{{ countyMap.get(g) }}</span>
+        <span class="totalCase">{{ `${totalCases[g]}` }}</span>
       </div>
       <svg :viewBox="`0, 0, ${width}, ${height}`">
         <rect
+          class="background"
+          :x="xScale(+weeks[0])"
+          :y="yScale(maxWeeklyCases) - margin.top - 2"
+          :height="yScale(0)"
+          :width="width"
+        ></rect>
+        <rect
+          class="caseBar"
           v-for="d in weeklyCases[g]"
           :key="d[0]"
           :x="xScale(+d[0])"
@@ -24,9 +32,9 @@
           v-for="m in months"
           :key="`${m[0]}月`"
           :y="yScale(0) + 13"
-          :x="xScale(m[1]) + barWidth"
+          :x="xScale(m[1] + 2)"
         >
-          {{ `${m[0]}月` }}
+          {{ m[0] === 2 ? `${m[0]}月` : m[0] }}
         </text>
         <text
           class="caseLabel"
@@ -155,22 +163,12 @@ export default {
     sum: sum,
     max: max
   }
-  // mounted() {
-  //   console.log(
-  //     this.weeklyCases[1].find(
-  //       d => +d[1] === max(this.weeklyCases[1], d => d[1])
-  //     )
-  //   );
-  // }
 };
 </script>
 
 <style scoped lang="scss">
 #chartWrapper {
-  margin: auto;
-  max-width: 950px;
-  padding-top: 42px;
-  padding-bottom: 50px;
+  padding-top: 20px;
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
@@ -179,9 +177,6 @@ export default {
 .chart {
   display: inline-block;
   width: calc(20% - 12px);
-  border-width: 1px;
-  border-style: solid;
-  border-color: transparent;
   margin-bottom: 8px;
   vertical-align: top;
   .infoWrapper {
@@ -193,9 +188,22 @@ export default {
     span {
       display: block;
     }
+    .countyName {
+      font-weight: 500;
+      font-size: 1rem;
+      color: black;
+    }
+    .totalCase {
+      line-height: 1.25rem;
+      color: orange;
+      font-size: 1.25rem;
+    }
   }
   svg {
     display: block;
+    .background {
+      fill: none;
+    }
     text {
       text-anchor: middle;
       display: none;
@@ -204,7 +212,7 @@ export default {
     .caseLabel {
       font-size: 0.75rem;
     }
-    rect {
+    .caseBar {
       fill: orange;
     }
   }
@@ -217,13 +225,14 @@ export default {
 }
 
 .county {
-  border-color: black;
   position: relative;
-  background-color: floralwhite;
   .infoWrapper {
     display: initial;
   }
   svg {
+    .background {
+      fill: floralwhite;
+    }
     text {
       display: initial;
     }
@@ -236,16 +245,19 @@ export default {
     height: calc(33.3vw - 14px);
     display: none;
     margin-bottom: 10px;
+    .infoWrapper {
+      .countyName {
+        font-size: 0.75rem;
+      }
+      .totalCase {
+        line-height: 1rem;
+        font-size: 1rem;
+      }
+    }
   }
 
   .county {
     display: inline-block;
-  }
-
-  .infoWrapper {
-    span {
-      font-size: 0.75rem;
-    }
   }
 }
 </style>
