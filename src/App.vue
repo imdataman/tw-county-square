@@ -2,12 +2,12 @@
   <div id="app">
     <div id="header">
       <h2 class="title">新冠肺炎各縣市每週發病病例</h2>
-      <!-- <p>
+      <p>
         新冠肺炎疫情持續延燒，截至{{ updateDate }}台灣已經有<span
           class="totalCase"
           >{{ twTotalCase }}</span
         >例。各縣市疫情曲線是向上發展還是維持平穩，儀表板報給你知。
-      </p> -->
+      </p>
       <span class="updateTime">更新時間：2020月{{ updateDate }}</span>
     </div>
     <Chart :json="json" />
