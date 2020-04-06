@@ -1,4 +1,4 @@
-# tw-county-square
+# 新冠肺炎各縣市每週新增病例
 
 ## Project setup
 ```
