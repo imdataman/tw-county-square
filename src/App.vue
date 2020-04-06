@@ -3,8 +3,9 @@
     <div id="header">
       <h1 class="title">新冠肺炎各縣市每週新增病例</h1>
       <p>
-        新冠肺炎疫情持續延燒，截至4月5日台灣已經有<span class="totalCase"
-          >363</span
+        新冠肺炎疫情持續延燒，截至4月5日台灣已經有<span class="totalCase">{{
+          twTotalCase
+        }}</span
         >例。各縣市疫情曲線是向上發展還是維持平穩，儀表板報給你知。
       </p>
       <span class="credit"
@@ -15,7 +16,7 @@
       ></span>
       <span class="updateTime">更新時間：2020月4月5日</span>
     </div>
-    <Chart />
+    <Chart :json="json" />
     <div id="footer">
       <span class="dataSource">
         資料來源：<a href="https://data.gov.tw/dataset/118038" target="_blank"
@@ -27,12 +28,23 @@
 </template>
 
 <script>
+import json from "@/assets/Weekly_Age_County_Gender_19CoV.json";
 import Chart from "./components/Chart.vue";
 
 export default {
   name: "App",
   components: {
     Chart
+  },
+  data() {
+    return {
+      json: json
+    };
+  },
+  computed: {
+    twTotalCase() {
+      return this.json.map(d => +d["確定病例數"]).reduce((a, b) => a + b);
+    }
   }
 };
 </script>

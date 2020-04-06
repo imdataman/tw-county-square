@@ -62,7 +62,6 @@
 </template>
 
 <script>
-import json from "@/assets/Weekly_Age_County_Gender_19CoV.json";
 import { max, rollups, sum, range } from "d3-array";
 import { scaleLinear, scaleBand } from "d3-scale";
 
@@ -75,19 +74,19 @@ export default {
       countyOrder: [1, 2, 3, 6, 7, 8, 11, 12, 13, 16, 17, 18, 21, 22, 23, 9, 14, 19, 24, 5, 10, 15],
       // eslint-disable-next-line prettier/prettier
       counties: ["基隆市", "台北市", "新北市", "桃園市", "新竹市", "新竹縣", "苗栗縣", "台中市", "彰化縣", "雲林縣", "嘉義市", "嘉義縣", "台南市", "高雄市", "屏東縣", "宜蘭縣", "南投縣", "花蓮縣", "台東縣", "連江縣", "金門縣", "澎湖縣"],
-      countyData: json,
       width: 150,
       height: 150,
       margin: { top: 20, bottom: 20, left: 0, right: 0 }
     };
   },
+  props: ["json"],
   computed: {
     countyMap() {
       return new Map(this.countyOrder.map((d, i) => [d, this.counties[i]]));
     },
     dataParsed() {
       const groupedData = rollups(
-        this.countyData,
+        this.json,
         v => sum(v, j => +j["確定病例數"]),
         d => d["縣市"],
         d => d["診斷週別"]
@@ -118,7 +117,7 @@ export default {
       );
     },
     weeks() {
-      return [...new Set(this.countyData.map(d => +d["診斷週別"]))].sort(
+      return [...new Set(this.json.map(d => +d["診斷週別"]))].sort(
         (a, b) => a - b
       );
     },
