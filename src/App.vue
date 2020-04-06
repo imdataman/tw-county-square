@@ -20,9 +20,14 @@
     <div id="footer">
       <span class="dataSource">
         資料來源：<a href="https://data.gov.tw/dataset/118038" target="_blank"
-          >衛生福利部疾病管制署</a
+          >疾管署</a
         >
       </span>
+      <span class="sourceCode"
+        ><a href="https://github.com/imdataman/tw-county-square" target="_blank"
+          >網頁原始碼</a
+        ></span
+      >
     </div>
   </div>
 </template>
@@ -58,7 +63,12 @@ body {
 }
 
 a {
-  color: black;
+  text-decoration: none;
+  color: Navy;
+}
+
+a:hover {
+  color: orange;
 }
 
 #app {
@@ -92,8 +102,13 @@ a {
 }
 
 .updateTime,
-.credit {
+.credit,
+.dataSource,
+.sourceCode {
   font-size: 0.75rem;
+}
+
+.credit {
   img {
     height: 0.75rem;
     padding-left: 0.25rem;
@@ -101,7 +116,14 @@ a {
   }
 }
 
-.dataSource {
-  font-size: 0.75rem;
+#footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas: "dataSource sourceCode none";
+}
+
+.sourceCode {
+  text-align: center;
+  grid-area: sourceCode;
 }
 </style>
