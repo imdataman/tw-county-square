@@ -165,6 +165,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+$feature-color: darkorange;
+
 #chartWrapper {
   padding-top: 20px;
   display: flex;
@@ -194,7 +196,7 @@ export default {
     .totalCase {
       font-weight: 500;
       line-height: 1.25rem;
-      color: orange;
+      color: $feature-color;
       font-size: 1.25rem;
     }
   }
@@ -212,7 +214,7 @@ export default {
       font-size: 0.75rem;
     }
     .caseBar {
-      fill: orange;
+      fill: $feature-color;
     }
   }
 }
@@ -230,7 +232,7 @@ export default {
   }
   svg {
     .background {
-      fill: floralwhite;
+      fill: oldlace;
     }
     text {
       display: initial;

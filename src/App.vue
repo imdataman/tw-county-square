@@ -1,19 +1,13 @@
 <template>
   <div id="app">
     <div id="header">
-      <h1 class="title">新冠肺炎各縣市每週發病病例</h1>
-      <p>
+      <h2 class="title">新冠肺炎各縣市每週發病病例</h2>
+      <!-- <p>
         新冠肺炎疫情持續延燒，截至{{ updateDate }}台灣已經有<span
           class="totalCase"
           >{{ twTotalCase }}</span
         >例。各縣市疫情曲線是向上發展還是維持平穩，儀表板報給你知。
-      </p>
-      <span class="credit"
-        >製作：<a href="https://www.facebook.com/imDataMan/" target="_blank"
-          >林佳賢</a
-        ><a href="https://github.com/imdataman" target="_blank"
-          ><img src="@/assets/GitHub-Mark-32px.png"/></a
-      ></span>
+      </p> -->
       <span class="updateTime">更新時間：2020月{{ updateDate }}</span>
     </div>
     <Chart :json="json" />
@@ -24,10 +18,14 @@
         >
       </span>
       <span class="sourceCode"
-        ><a href="https://github.com/imdataman/tw-county-square" target="_blank"
-          >網頁原始碼</a
-        ></span
-      >
+        ><span class="credit"
+          >製作：<a href="https://www.facebook.com/imDataMan/" target="_blank"
+            >林佳賢</a
+          ><a
+            href="https://github.com/imdataman/tw-county-square"
+            target="_blank"
+            ><img src="@/assets/GitHub-Mark-32px.png"/></a></span
+      ></span>
     </div>
   </div>
 </template>
@@ -53,13 +51,28 @@ export default {
     twTotalCase() {
       return this.json.map(d => +d["確定病例數"]).reduce((a, b) => a + b);
     }
+  },
+  created() {
+    document.querySelector("body").classList.add("bodyStyle");
+  },
+  destroyed() {
+    document.querySelector("body").classList.remove("bodyStyle");
   }
 };
 </script>
 
-<style scoped lang="scss">
-body {
+<style>
+.bodyStyle {
   margin: 0;
+  background-color: floralwhite;
+}
+</style>
+
+<style scoped lang="scss">
+$feature-color: darkorange;
+
+h2 {
+  margin: 0.75rem 0;
 }
 
 a {
@@ -68,7 +81,7 @@ a {
 }
 
 a:hover {
-  color: orange;
+  color: $feature-color;
 }
 
 #app {
@@ -85,16 +98,12 @@ a:hover {
 }
 
 #footer {
-  padding-bottom: 20px;
-}
-
-.updateTime {
-  padding-left: 2rem;
+  padding-bottom: 10px;
 }
 
 .totalCase {
   color: white;
-  background-color: orange;
+  background-color: $feature-color;
   padding: 0 5px;
   margin: 0 2px;
   border-radius: 4px;
