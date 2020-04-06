@@ -1,11 +1,11 @@
 <template>
   <div id="app">
     <div id="header">
-      <h1 class="title">新冠肺炎各縣市每週新增病例</h1>
+      <h1 class="title">新冠肺炎各縣市每週發病病例</h1>
       <p>
-        新冠肺炎疫情持續延燒，截至4月5日台灣已經有<span class="totalCase">{{
-          twTotalCase
-        }}</span
+        新冠肺炎疫情持續延燒，截至{{ updateDate }}台灣已經有<span
+          class="totalCase"
+          >{{ twTotalCase }}</span
         >例。各縣市疫情曲線是向上發展還是維持平穩，儀表板報給你知。
       </p>
       <span class="credit"
@@ -14,7 +14,7 @@
         ><a href="https://github.com/imdataman" target="_blank"
           ><img src="@/assets/GitHub-Mark-32px.png"/></a
       ></span>
-      <span class="updateTime">更新時間：2020月4月5日</span>
+      <span class="updateTime">更新時間：2020月{{ updateDate }}</span>
     </div>
     <Chart :json="json" />
     <div id="footer">
@@ -31,6 +31,8 @@
 import json from "@/assets/Weekly_Age_County_Gender_19CoV.json";
 import Chart from "./components/Chart.vue";
 
+const updateDate = "4月5日";
+
 export default {
   name: "App",
   components: {
@@ -38,7 +40,8 @@ export default {
   },
   data() {
     return {
-      json: json
+      json: json,
+      updateDate: updateDate
     };
   },
   computed: {
