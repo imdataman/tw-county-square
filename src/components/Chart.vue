@@ -91,7 +91,6 @@ export default {
         d => d["縣市"],
         d => d["診斷週別"]
       );
-
       return groupedData;
     },
     totalCases() {
@@ -188,11 +187,12 @@ export default {
       display: block;
     }
     .countyName {
-      font-weight: 500;
+      // font-weight: 500;
       font-size: 1rem;
       color: black;
     }
     .totalCase {
+      font-weight: 500;
       line-height: 1.25rem;
       color: orange;
       font-size: 1.25rem;

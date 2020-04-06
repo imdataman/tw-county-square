@@ -83,7 +83,12 @@ a {
 }
 
 .totalCase {
-  color: orange;
+  color: white;
+  background-color: orange;
+  padding: 0 5px;
+  margin: 0 2px;
+  border-radius: 4px;
+  font-weight: 500;
 }
 
 .updateTime,
