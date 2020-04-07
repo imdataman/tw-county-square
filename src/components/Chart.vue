@@ -70,8 +70,11 @@ export default {
   data() {
     return {
       grid: Array.from(Array(25).keys()),
+      countyOrder: [],
       // eslint-disable-next-line prettier/prettier
-      countyOrder: window.innerWidth <= 480 ? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21] : [1, 2, 3, 6, 7, 8, 11, 12, 13, 16, 17, 18, 21, 22, 23, 9, 14, 19, 24, 5, 10, 15],
+      desktopLayout: [1, 2, 3, 6, 7, 8, 11, 12, 13, 16, 17, 18, 21, 22, 23, 9, 14, 19, 24, 5, 10, 15],
+      // eslint-disable-next-line prettier/prettier
+      mobileLayout: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21],
       // eslint-disable-next-line prettier/prettier
       counties: ["基隆市", "台北市", "新北市", "桃園市", "新竹市", "新竹縣", "苗栗縣", "台中市", "彰化縣", "雲林縣", "嘉義市", "嘉義縣", "台南市", "高雄市", "屏東縣", "宜蘭縣", "南投縣", "花蓮縣", "台東縣", "連江縣", "金門縣", "澎湖縣"],
       width: 150,
@@ -151,15 +154,16 @@ export default {
   methods: {
     resized() {
       if (window.innerWidth <= 480) {
-        // eslint-disable-next-line prettier/prettier
-        this.countyOrder = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
+        this.countyOrder = this.mobileLayout;
       } else {
-        // eslint-disable-next-line prettier/prettier
-        this.countyOrder = [1, 2, 3, 6, 7, 8, 11, 12, 13, 16, 17, 18, 21, 22, 23, 9, 14, 19, 24, 5, 10, 15];
+        this.countyOrder = this.desktopLayout;
       }
     },
     sum: sum,
     max: max
+  },
+  mounted() {
+    this.resized();
   }
 };
 </script>
@@ -175,7 +179,6 @@ $feature-color: darkorange;
 }
 
 .chart {
-  display: initial;
   width: calc(20% - 12px);
   margin-bottom: 6px;
   position: relative;
