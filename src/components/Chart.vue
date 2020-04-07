@@ -13,9 +13,9 @@
       <svg :viewBox="`0, 0, ${width}, ${height}`">
         <rect
           class="background"
-          :x="xScale(+weeks[0])"
-          :y="yScale(maxWeeklyCases) - margin.top - 2"
-          :height="yScale(0)"
+          x="0"
+          y="0"
+          :height="height - margin.bottom"
           :width="width"
         ></rect>
         <rect
@@ -175,10 +175,9 @@ $feature-color: darkorange;
 }
 
 .chart {
-  display: inline-block;
   width: calc(20% - 12px);
-  margin-bottom: 8px;
-  vertical-align: top;
+  margin-bottom: 6px;
+  position: relative;
   .infoWrapper {
     position: absolute;
     left: 3px;
@@ -187,11 +186,6 @@ $feature-color: darkorange;
     text-align: center;
     span {
       display: block;
-    }
-    .countyName {
-      // font-weight: 500;
-      font-size: 1rem;
-      color: black;
     }
     .totalCase {
       font-weight: 500;
@@ -219,14 +213,7 @@ $feature-color: darkorange;
   }
 }
 
-.chart:before {
-  content: "";
-  float: left;
-  padding-top: 100%;
-}
-
 .county {
-  position: relative;
   .infoWrapper {
     display: initial;
   }
@@ -242,23 +229,22 @@ $feature-color: darkorange;
 
 @media only screen and (max-width: 480px) {
   .chart {
-    width: calc(33.3vw - 14px);
-    height: calc(33.3vw - 14px);
+    width: calc(33.3vw - 10px);
+    height: calc(33.3vw - 10px);
     display: none;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     .infoWrapper {
       .countyName {
         font-size: 0.75rem;
       }
       .totalCase {
-        line-height: 1rem;
         font-size: 1rem;
       }
     }
   }
 
   .county {
-    display: inline-block;
+    display: initial;
   }
 }
 </style>
