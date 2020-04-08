@@ -88,7 +88,7 @@ export default {
 $feature-color: darkorange;
 
 h2 {
-  margin: 0.75rem 0;
+  margin: 1.25rem 0 0.75rem;
 }
 
 a {
@@ -139,6 +139,7 @@ a {
 
 #legend {
   display: flex;
+  padding-bottom: 0.5rem;
   span {
     text-align: center;
     padding-right: 1rem;

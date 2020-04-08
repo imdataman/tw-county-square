@@ -21,15 +21,6 @@
           :height="height - margin.bottom"
           :width="width"
         ></rect>
-        <!-- <rect
-          class="caseBar"
-          v-for="d in weeklyCases[g]"
-          :key="`${d[0]}bar`"
-          :x="xScale(+d[0])"
-          :y="yScale(+d[1])"
-          :height="height - margin.bottom - yScale(+d[1])"
-          :width="barWidth"
-        ></rect> -->
         <g v-for="(d, i) in stackedData[g]" :key="`${i}stack`">
           <rect
             v-for="(j, k) in d"
@@ -182,6 +173,7 @@ export default {
         d[0],
         d[1]
           .map(j => ({ week: j[0], ...Object.fromEntries(j[1]) }))
+          // 確保不會有NaN
           .map(j => ("是" in j ? j : { ...j, 是: 0 }))
           .map(j => ("否" in j ? j : { ...j, 否: 0 }))
       ]);
@@ -193,6 +185,7 @@ export default {
           .map(
             j => (
               j.forEach(v => {
+                // 因為Vue會自己把array的property拿掉，所以這裡要自己手動新增key跟week
                 v[2] = j.key;
                 v[3] = v.data.week;
               }),
