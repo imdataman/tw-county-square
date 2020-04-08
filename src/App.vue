@@ -2,6 +2,7 @@
   <div id="app">
     <div id="header">
       <h2 class="title">新冠肺炎各縣市每週發病病例</h2>
+      <!-- <span class="updateTime">更新時間：2020月{{ updateDate }}</span> -->
       <p>
         新冠肺炎疫情持續延燒，截至{{ updateDate }}台灣已經有<span
           class="totalCase"
@@ -11,9 +12,14 @@
         }}</span
         >例。各縣市疫情曲線是向上發展還是維持平穩，儀表板報給你知。
       </p>
-      <span class="updateTime"
-        >更新時間：2020月{{ updateDate }}，虛線長條代表前日值</span
-      >
+      <div id="legend">
+        <div class="importLegend"></div>
+        <span>境外移入</span>
+        <div class="localLegend"></div>
+        <span>本土傳染</span>
+        <div class="lastDay"></div>
+        <span>前日值</span>
+      </div>
     </div>
     <Chart :json="json" :oldJson="oldJson" />
     <div id="footer">
@@ -129,6 +135,34 @@ a {
 .dataSource,
 .sourceCode {
   font-size: 0.75rem;
+}
+
+#legend {
+  display: flex;
+  span {
+    text-align: center;
+    padding-right: 1rem;
+  }
+  .importLegend {
+    @extend .totalCase;
+    width: 10px;
+    height: 20px;
+    display: inline-block;
+    background-color: #ffc966;
+  }
+  .localLegend {
+    @extend .importLegend;
+    background-color: $feature-color;
+  }
+  .lastDay {
+    padding: 0 5px;
+    margin: 0 2px;
+    width: 10px;
+    height: 20px;
+    border-radius: 4px;
+    border-width: 1px;
+    border-style: dashed;
+  }
 }
 
 .credit {

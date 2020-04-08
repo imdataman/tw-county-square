@@ -21,15 +21,26 @@
           :height="height - margin.bottom"
           :width="width"
         ></rect>
-        <rect
+        <!-- <rect
           class="caseBar"
           v-for="d in weeklyCases[g]"
-          :key="`${d[0]}new`"
+          :key="`${d[0]}bar`"
           :x="xScale(+d[0])"
           :y="yScale(+d[1])"
           :height="height - margin.bottom - yScale(+d[1])"
           :width="barWidth"
-        ></rect>
+        ></rect> -->
+        <g v-for="(d, i) in stackedData[g]" :key="`${i}stack`">
+          <rect
+            v-for="(j, k) in d"
+            :key="`${i}${k}stack`"
+            :class="j[2] === '否' ? 'localCase' : 'importCase'"
+            :x="xScale(j[3])"
+            :y="yScale(j[1])"
+            :height="yScale(j[0]) - yScale(j[1])"
+            :width="barWidth"
+          ></rect>
+        </g>
         <rect
           class="oldCaseBar"
           v-for="(d, i) in oldWeeklyCases[g]"
@@ -77,6 +88,7 @@
 <script>
 import { max, rollups, sum, range } from "d3-array";
 import { scaleLinear, scaleBand } from "d3-scale";
+import { stack } from "d3-shape";
 
 export default {
   name: "Chart",
@@ -157,6 +169,44 @@ export default {
         this.weeklyCases.reduce((a, b) => [...a, ...b]).map(d => d[1])
       );
     },
+    stackedData() {
+      let groupedData = rollups(
+        this.json,
+        v => sum(v, j => +j["確定病例數"]),
+        d => d["縣市"],
+        d => d["診斷週別"],
+        d => d["是否為境外移入"]
+      );
+
+      groupedData = groupedData.map(d => [
+        d[0],
+        d[1]
+          .map(j => ({ week: j[0], ...Object.fromEntries(j[1]) }))
+          .map(j => ("是" in j ? j : { ...j, 是: 0 }))
+          .map(j => ("否" in j ? j : { ...j, 否: 0 }))
+      ]);
+
+      groupedData = groupedData.map(d => [
+        d[0],
+        stack()
+          .keys(["否", "是"])(d[1])
+          .map(
+            j => (
+              j.forEach(v => {
+                v[2] = j.key;
+                v[3] = v.data.week;
+              }),
+              j
+            )
+          )
+      ]);
+
+      return this.grid.map(g =>
+        groupedData.find(d => d[0] === this.countyMap.get(g))
+          ? groupedData.find(d => d[0] === this.countyMap.get(g))[1]
+          : []
+      );
+    },
     weeks() {
       return [...new Set(this.json.map(d => +d["診斷週別"]))].sort(
         (a, b) => a - b
@@ -211,7 +261,7 @@ export default {
 $feature-color: darkorange;
 
 #chartWrapper {
-  padding-top: 20px;
+  padding-top: 10px;
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
@@ -254,10 +304,11 @@ $feature-color: darkorange;
     .caseLabel {
       font-size: 0.75rem;
     }
-    .caseBar {
+    .localCase {
       fill: $feature-color;
-      // stroke: red;
-      // stroke-width: 1px;
+    }
+    .importCase {
+      fill: #ffc966;
     }
     .oldCaseBar {
       fill: none;
