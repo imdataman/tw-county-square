@@ -6,11 +6,16 @@
         新冠肺炎疫情持續延燒，截至{{ updateDate }}台灣已經有<span
           class="totalCase"
           >{{ twTotalCase }}</span
+        >例，單日增加<span class="newCase">{{
+          twTotalCase - oldTwTotalCase
+        }}</span
         >例。各縣市疫情曲線是向上發展還是維持平穩，儀表板報給你知。
       </p>
-      <span class="updateTime">更新時間：2020月{{ updateDate }}</span>
+      <span class="updateTime"
+        >更新時間：2020月{{ updateDate }}，虛線長條代表前日值</span
+      >
     </div>
-    <Chart :json="json" />
+    <Chart :json="json" :oldJson="oldJson" />
     <div id="footer">
       <span class="dataSource">
         資料來源：<a href="https://data.gov.tw/dataset/118038" target="_blank"
@@ -32,9 +37,10 @@
 
 <script>
 import json from "@/assets/Weekly_Age_County_Gender_19CoV.json";
+import oldJson from "@/assets/old.json";
 import Chart from "./components/Chart.vue";
 
-const updateDate = "4月6日";
+const updateDate = "4月7日";
 
 export default {
   name: "App",
@@ -44,12 +50,16 @@ export default {
   data() {
     return {
       json: json,
+      oldJson: oldJson,
       updateDate: updateDate
     };
   },
   computed: {
     twTotalCase() {
       return this.json.map(d => +d["確定病例數"]).reduce((a, b) => a + b);
+    },
+    oldTwTotalCase() {
+      return this.oldJson.map(d => +d["確定病例數"]).reduce((a, b) => a + b);
     }
   },
   created() {
@@ -78,10 +88,9 @@ h2 {
 a {
   text-decoration: none;
   color: Navy;
-}
-
-a:hover {
-  color: $feature-color;
+  &:hover {
+    color: $feature-color;
+  }
 }
 
 #app {
@@ -108,6 +117,11 @@ a:hover {
   margin: 0 2px;
   border-radius: 4px;
   font-weight: 500;
+}
+
+.newCase {
+  @extend .totalCase;
+  background-color: crimson;
 }
 
 .updateTime,

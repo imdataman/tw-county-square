@@ -9,6 +9,9 @@
       <div class="infoWrapper">
         <span class="countyName">{{ countyMap.get(g) }}</span>
         <span class="totalCase">{{ `${totalCases[g]}` }}</span>
+        <span class="newCase">{{
+          totalCases[g] - oldTotalCases[g] || ""
+        }}</span>
       </div>
       <svg :viewBox="`0, 0, ${width}, ${height}`">
         <rect
@@ -21,17 +24,27 @@
         <rect
           class="caseBar"
           v-for="d in weeklyCases[g]"
-          :key="d[0]"
+          :key="`${d[0]}new`"
           :x="xScale(+d[0])"
           :y="yScale(+d[1])"
-          :height="yScale(0) - yScale(+d[1])"
+          :height="height - margin.bottom - yScale(+d[1])"
+          :width="barWidth"
+        ></rect>
+        <rect
+          class="oldCaseBar"
+          v-for="(d, i) in oldWeeklyCases[g]"
+          :key="`${d[0]}old`"
+          v-show="d[1] !== weeklyCases[g][i][1]"
+          :x="xScale(+d[0])"
+          :y="yScale(+d[1])"
+          :height="height - margin.bottom - yScale(+d[1])"
           :width="barWidth"
         ></rect>
         <text
           class="monthLabel"
           v-for="m in months"
           :key="`${m[0]}月`"
-          :y="yScale(0) + 13"
+          :y="height - margin.bottom + 13"
           :x="xScale(m[1] + 2)"
         >
           {{ m[0] === 2 ? `${m[0]}月` : m[0] }}
@@ -82,7 +95,7 @@ export default {
       margin: { top: 20, bottom: 20, left: 0, right: 0 }
     };
   },
-  props: ["json"],
+  props: ["json", "oldJson"],
   computed: {
     countyMap() {
       return new Map(this.countyOrder.map((d, i) => [d, this.counties[i]]));
@@ -90,6 +103,15 @@ export default {
     dataParsed() {
       const groupedData = rollups(
         this.json,
+        v => sum(v, j => +j["確定病例數"]),
+        d => d["縣市"],
+        d => d["診斷週別"]
+      );
+      return groupedData;
+    },
+    oldDataParsed() {
+      const groupedData = rollups(
+        this.oldJson,
         v => sum(v, j => +j["確定病例數"]),
         d => d["縣市"],
         d => d["診斷週別"]
@@ -106,10 +128,27 @@ export default {
           : 0
       );
     },
+    oldTotalCases() {
+      return this.grid.map(g =>
+        this.oldDataParsed.find(d => d[0] === this.countyMap.get(g))
+          ? sum(
+              this.oldDataParsed.find(d => d[0] === this.countyMap.get(g))[1],
+              d => d[1]
+            )
+          : 0
+      );
+    },
     weeklyCases() {
       return this.grid.map(g =>
         this.dataParsed.find(d => d[0] === this.countyMap.get(g))
           ? this.dataParsed.find(d => d[0] === this.countyMap.get(g))[1]
+          : []
+      );
+    },
+    oldWeeklyCases() {
+      return this.grid.map(g =>
+        this.oldDataParsed.find(d => d[0] === this.countyMap.get(g))
+          ? this.oldDataParsed.find(d => d[0] === this.countyMap.get(g))[1]
           : []
       );
     },
@@ -194,8 +233,12 @@ $feature-color: darkorange;
     .totalCase {
       font-weight: 500;
       line-height: 1.25rem;
-      color: $feature-color;
       font-size: 1.25rem;
+      color: $feature-color;
+    }
+    .newCase {
+      @extend .totalCase;
+      color: crimson;
     }
   }
   svg {
@@ -213,6 +256,14 @@ $feature-color: darkorange;
     }
     .caseBar {
       fill: $feature-color;
+      // stroke: red;
+      // stroke-width: 1px;
+    }
+    .oldCaseBar {
+      fill: none;
+      stroke: black;
+      stroke-width: 1px;
+      stroke-dasharray: 2;
     }
   }
 }
