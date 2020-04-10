@@ -104,21 +104,29 @@ export default {
       return new Map(this.countyOrder.map((d, i) => [d, this.counties[i]]));
     },
     dataParsed() {
-      const groupedData = rollups(
+      let groupedData = rollups(
         this.json,
         v => sum(v, j => +j["確定病例數"]),
         d => d["縣市"],
         d => d["診斷週別"]
       );
+      groupedData = groupedData.map(d => [
+        d[0],
+        d[1].sort((a, b) => +a[0] - +b[0])
+      ]);
       return groupedData;
     },
     oldDataParsed() {
-      const groupedData = rollups(
+      let groupedData = rollups(
         this.oldJson,
         v => sum(v, j => +j["確定病例數"]),
         d => d["縣市"],
         d => d["診斷週別"]
       );
+      groupedData = groupedData.map(d => [
+        d[0],
+        d[1].sort((a, b) => +a[0] - +b[0])
+      ]);
       return groupedData;
     },
     totalCases() {
