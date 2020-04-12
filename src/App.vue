@@ -45,7 +45,7 @@ import json from "@/assets/Weekly_Age_County_Gender_19CoV.json";
 import oldJson from "@/assets/old.json";
 import Chart from "./components/Chart.vue";
 
-const updateDate = "4月10日";
+const updateDate = "4月11日";
 
 export default {
   name: "App",
