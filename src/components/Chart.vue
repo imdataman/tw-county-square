@@ -290,7 +290,7 @@ export default {
     }
     .newCase {
       @extend .totalCase;
-      color: crimson;
+      color: $new-color;
     }
   }
   svg {
@@ -310,7 +310,7 @@ export default {
       fill: $feature-color;
     }
     .importCase {
-      fill: #ffc966;
+      fill: $import-color;
     }
     .oldCaseBar {
       fill: none;
@@ -327,7 +327,7 @@ export default {
   }
   svg {
     .background {
-      fill: oldlace;
+      fill: $chart-bg-color;
     }
     text {
       display: initial;

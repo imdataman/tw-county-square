@@ -77,7 +77,7 @@ h2 {
 
 a {
   text-decoration: none;
-  color: Navy;
+  color: $link-color;
   &:hover {
     color: $feature-color;
   }
@@ -111,7 +111,7 @@ a {
 
 .newCase {
   @extend .totalCase;
-  background-color: crimson;
+  background-color: $new-color;
 }
 
 .updateTime,
@@ -133,7 +133,7 @@ a {
     width: 10px;
     height: 20px;
     display: inline-block;
-    background-color: #ffc966;
+    background-color: $import-color;
   }
   .localLegend {
     @extend .importLegend;
