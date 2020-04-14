@@ -108,7 +108,7 @@ export default {
         this.json,
         v => sum(v, j => +j["確定病例數"]),
         d => d["縣市"],
-        d => d["診斷週別"]
+        d => d["發病週別"]
       );
       groupedData = groupedData.map(d => [
         d[0],
@@ -173,7 +173,7 @@ export default {
         this.json,
         v => sum(v, j => +j["確定病例數"]),
         d => d["縣市"],
-        d => d["診斷週別"],
+        d => d["發病週別"],
         d => d["是否為境外移入"]
       );
 
@@ -209,7 +209,7 @@ export default {
       );
     },
     weeks() {
-      return [...new Set(this.json.map(d => +d["診斷週別"]))].sort(
+      return [...new Set(this.json.map(d => +d["發病週別"]))].sort(
         (a, b) => a - b
       );
     },
