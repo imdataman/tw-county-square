@@ -66,26 +66,11 @@ export default {
     oldTwTotalCase() {
       return this.oldJson.map(d => +d["確定病例數"]).reduce((a, b) => a + b);
     }
-  },
-  created() {
-    document.querySelector("body").classList.add("bodyStyle");
-  },
-  destroyed() {
-    document.querySelector("body").classList.remove("bodyStyle");
   }
 };
 </script>
 
-<style>
-.bodyStyle {
-  margin: 0;
-  background-color: floralwhite;
-}
-</style>
-
 <style scoped lang="scss">
-$feature-color: darkorange;
-
 h2 {
   margin: 1.25rem 0 0.75rem;
 }

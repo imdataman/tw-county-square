@@ -98,7 +98,10 @@ export default {
       margin: { top: 20, bottom: 20, left: 0, right: 0 }
     };
   },
-  props: ["json", "oldJson"],
+  props: {
+    json: Array,
+    oldJson: Array
+  },
   computed: {
     countyMap() {
       return new Map(this.countyOrder.map((d, i) => [d, this.counties[i]]));
@@ -259,8 +262,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$feature-color: darkorange;
-
 #chartWrapper {
   padding-top: 10px;
   display: flex;
