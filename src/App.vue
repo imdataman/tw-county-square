@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="header">
-      <h2 class="title">新冠肺炎各縣市每週發病病例</h2>
+      <h2 class="title">新冠肺炎各縣市每週確診病例</h2>
       <p>
         全球新冠肺炎疫情持續延燒，截至{{ updateDate }}台灣已經有<span
           class="totalCase"
@@ -23,7 +23,7 @@
     <Chart :json="json" :oldJson="oldJson" />
     <div id="footer">
       <span class="dataSource">
-        資料來源：<a href="https://data.gov.tw/dataset/118038" target="_blank"
+        資料來源：<a href="https://data.gov.tw/dataset/120309" target="_blank"
           >疾管署</a
         >
       </span>
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import json from "@/assets/Weekly_Age_County_Gender_19CoV.json";
+import json from "@/assets/Weekly_Confirmation_Age_County_Gender_19CoV.json";
 import oldJson from "@/assets/old.json";
 import Chart from "./components/Chart.vue";
 
