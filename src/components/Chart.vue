@@ -124,7 +124,7 @@ export default {
         this.oldJson,
         v => sum(v, j => +j["確定病例數"]),
         d => d["縣市"],
-        d => d["診斷週別"]
+        d => d["發病週別"]
       );
       groupedData = groupedData.map(d => [
         d[0],

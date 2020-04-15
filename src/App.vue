@@ -3,7 +3,7 @@
     <div id="header">
       <h2 class="title">新冠肺炎各縣市每週發病病例</h2>
       <p>
-        新冠肺炎疫情持續延燒，截至{{ updateDate }}台灣已經有<span
+        全球新冠肺炎疫情持續延燒，截至{{ updateDate }}台灣已經有<span
           class="totalCase"
           >{{ twTotalCase }}</span
         >例，單日增加<span class="newCase">{{
@@ -45,7 +45,7 @@ import json from "@/assets/Weekly_Age_County_Gender_19CoV.json";
 import oldJson from "@/assets/old.json";
 import Chart from "./components/Chart.vue";
 
-const updateDate = "4月13日";
+const updateDate = "4月14日";
 
 export default {
   name: "App",
